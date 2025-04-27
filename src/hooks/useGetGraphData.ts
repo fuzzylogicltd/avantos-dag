@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Node, Edge } from "../types/nodes";
 import { api } from "../data/api";
 import { API_URL } from "../env";
+import { GraphData } from "../types/graphData";
 
 export const useGetGraphData = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
