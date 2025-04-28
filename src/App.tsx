@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { Node, Form } from "./types/graphData";
 
+import { Node, Form } from "./types/graphData";
 import { FlowChart } from "./components/FlowChart";
 import { NodeForm } from "./components/NodeForm";
 
 import { useGetGraphData } from "./hooks/useGetGraphData";
+import { DataElementMapModal } from "./components/DataElementMapModal";
 
 export default function App() {
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [currentForm, setCurrentForm] = useState<Form | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
   const { data, loading, error } = useGetGraphData();
 
@@ -23,8 +25,6 @@ export default function App() {
 
     setCurrentForm(formToSet ?? null);
   }, [selectedNode, data]);
-
-  console.log({ selectedNode });
 
   useEffect(
     function setDataWhenReady() {
@@ -46,7 +46,11 @@ export default function App() {
           nodes={data.nodes}
           edges={data.edges}
         />
-        {currentForm && <NodeForm form={currentForm} />}
+        {currentForm && (
+          <NodeForm form={currentForm} onFormElementClick={setModalIsOpen} />
+        )}
+
+        <DataElementMapModal isOpen={modalIsOpen} setIsOpen={setModalIsOpen} />
       </>
     );
 }
