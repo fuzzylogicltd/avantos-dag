@@ -52,27 +52,22 @@ export interface UserID {
 
 export interface FieldSchema {
   type: ButtonType;
-  properties: Properties;
+  properties: Field[];
   required: string[];
 }
 
-export interface Properties {
-  button: EmailClass;
-  dynamic_checkbox_group: DynamicCheckboxGroup;
-  dynamic_object: EmailClass;
-  email: EmailClass;
-  id: EmailClass;
-  multi_select: DynamicCheckboxGroup;
-  name: EmailClass;
-  notes: EmailClass;
+export interface Field {
+  [key: string]: FieldDetails;
 }
 
-export interface EmailClass {
+export interface FieldDetails {
   avantos_type: AvantosType;
-  title: string;
   type: ButtonType;
+  title?: string;
   enum?: EnumClass[] | null;
   format?: string;
+  uniqueItems?: boolean;
+  items: Items;
 }
 
 export enum AvantosType {
@@ -89,13 +84,6 @@ export interface EnumClass {
 export enum ButtonType {
   Object = "object",
   String = "string",
-}
-
-export interface DynamicCheckboxGroup {
-  avantos_type: string;
-  items: Items;
-  type: string;
-  uniqueItems: boolean;
 }
 
 export interface Items {

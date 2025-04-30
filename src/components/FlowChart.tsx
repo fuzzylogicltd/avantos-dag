@@ -7,12 +7,14 @@ interface FlowChartProps {
   openFormHandler: Dispatch<SetStateAction<Node | null>>;
   nodes: Node[];
   edges: Edge[];
+  handlePaneClick: (event: React.MouseEvent<Element, MouseEvent>) => void;
 }
 
 export const FlowChart = ({
   openFormHandler,
   nodes,
   edges,
+  handlePaneClick,
 }: FlowChartProps) => {
   const transformedNodes = nodes.map((node: Node) => ({
     id: node.id,
@@ -26,9 +28,8 @@ export const FlowChart = ({
     target: edge.target,
   }));
 
-  const handleElementClick = (event, element) => {
-    console.log({ event }, { element });
-    const nodeClicked = nodes.find((node) => node.id === element.id);
+  const handleElementClick = (_: React.MouseEvent, node: { id: string }) => {
+    const nodeClicked = nodes.find((n: Node) => n.id === node.id);
 
     if (!nodeClicked) {
       return;
@@ -43,6 +44,7 @@ export const FlowChart = ({
         nodes={transformedNodes}
         edges={transformedEdges}
         onNodeClick={handleElementClick}
+        onPaneClick={handlePaneClick}
       />
     </div>
   );
